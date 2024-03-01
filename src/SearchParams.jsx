@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Results from "./Results";
 import useBreedList from "./useBreedList";
 import { useQuery } from "@tanstack/react-query";
