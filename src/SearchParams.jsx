@@ -2,7 +2,7 @@ import { useState } from "react";
 import Results from "./Results";
 import useBreedList from "./useBreedList";
 import { useQuery } from "@tanstack/react-query";
-import fetchSearch from "./fetchSearch";
+import { fetchSearch } from "./queryFetches";
 const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
 
 const SearchParams = () => {

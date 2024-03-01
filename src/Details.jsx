@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import fetchPet from "./fetchPet";
 import Carousel from "./Carousel";
+import { fetchPet } from "./queryFetches";
 
 const Details = () => {
     let { id } = useParams(); //useparams gets id from browserrouter component in app.jsx

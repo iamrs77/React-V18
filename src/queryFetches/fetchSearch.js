@@ -1,4 +1,4 @@
-async function fetchSearch({ queryKey }) {
+export const fetchSearch = async ({ queryKey }) => {
     const { animal, location, breed } = queryKey[1];
 
     const res = await fetch(
@@ -9,6 +9,4 @@ async function fetchSearch({ queryKey }) {
     }
 
     return res.json();
-}
-
-export default fetchSearch;
+};
