@@ -1,10 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useContext, useState } from "react";
+import AdoptedPetContext from "./AdoptedPetContext";
+import Modal from "./Modal";
+import ErrorBoundary from "./ErrorBoundary";
 import Carousel from "./Carousel";
 import { fetchPet } from "./queryFetches";
-import ErrorBoundary from "./ErrorBoundary";
-import { useState } from "react";
-import Modal from "./Modal";
 
 const Details = () => {
     const [showModal, setShowModal] = useState(false);
@@ -15,10 +16,14 @@ const Details = () => {
         queryFn: fetchPet,
     });
 
+    // eslint-disable-next-line no-unused-vars
+    const [_, setAdoptedPet] = useContext(AdoptedPetContext);
+    const navigate = useNavigate();
+
     if (isPending) {
         return (
             <div className="loading-pane">
-                <h2 className="loader">@</h2>
+                <h2 className="loader">🌀</h2>
             </div>
         );
     }
@@ -34,37 +39,40 @@ const Details = () => {
             <Carousel images={pet.images} />
             <div>
                 <h1>{pet.name}</h1>
-                <h2>
-                    {pet.animal} - {pet.breed} - {pet.city} - {pet.state}
-                    <button onClick={() => setShowModal(true)}>
-                        Adopt {pet.name}
-                    </button>
-                    <p>{pet.description}</p>
-                    {showModal ? (
-                        <Modal>
-                            <div>
-                                <h1>Would you like to adopt {pet.name}</h1>
-                                <div className="butotns">
-                                    <button>Yes</button>
-                                    <button onClick={() => setShowModal(false)}>
-                                        No
-                                    </button>
-                                </div>
+                <h2>{`${pet.animal} — ${pet.breed} — ${pet.city}, ${pet.state}`}</h2>
+                <button onClick={() => setShowModal(true)}>
+                    Adopt {pet.name}
+                </button>
+                <p>{pet.description}</p>
+                {showModal ? (
+                    <Modal>
+                        <div>
+                            <h1>Would you like to adopt {pet.name}?</h1>
+                            <div className="buttons">
+                                <button
+                                    onClick={() => {
+                                        setAdoptedPet(pet);
+                                        navigate("/");
+                                    }}
+                                >
+                                    Yes
+                                </button>
+                                <button onClick={() => setShowModal(false)}>
+                                    No
+                                </button>
                             </div>
-                        </Modal>
-                    ) : null}
-                </h2>
+                        </div>
+                    </Modal>
+                ) : null}
             </div>
         </div>
     );
 };
 
-const DetailsErrorBoundary = (props) => {
+export default function DetailsErrorBoundary(props) {
     return (
         <ErrorBoundary>
             <Details {...props} />
         </ErrorBoundary>
     );
-};
-
-export default DetailsErrorBoundary;
+}
