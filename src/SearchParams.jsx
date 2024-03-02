@@ -29,7 +29,8 @@ const SearchParams = () => {
             <form
                 onSubmit={(e) => {
                     e.preventDefault();
-                    const formData = new FormData(e.target);
+                    let formData = new FormData(e.target);
+
                     const obj = {
                         animal: formData.get("animal") ?? "",
                         breed: formData.get("breed") ?? "",
